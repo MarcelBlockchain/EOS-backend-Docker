@@ -1,0 +1,26 @@
+# "off" or 0 - turn the rule off
+# "warn" or 1 - turn the rule on as a warning(doesn’ t affect exit code)
+# "error" or 2 - turn the rule on as an error(exit code is 1 when triggered)
+{
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "env": {
+    "browser": false,
+    "node": true,
+    "es6": true,
+  },
+  "plugins": [
+    "prettier",
+  ],
+  "ecmaFeatures": {
+    "jsx": false
+  },
+  "extends": ["prettier", "eslint:recommended", "standard"],
+  "globals": {
+    "GLOBAL": false,
+    "it": false,
+    "expect": false,
+    "describe": false,
+   }
+}

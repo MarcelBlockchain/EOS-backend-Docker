@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  builder:
+    build:
+      context: builder
+    image: eosio/builder
+
+  nodeosd:
+    build:
+      context: .
+    image: eosio/eos
+    command: /bin/sh 
+    hostname: nodeosd
+    ports:
+      - 8888:8888
+      - 9876:9876
+      - 3838:3838
+    expose:
+      - "8888"
+      - "9876"
+      - "3838"
+    volumes:
+      - nodeos-data-volume:/opt/eosio/bin/data-dir
+      - block-data-volume:/mnt/volume_lon1_01/mainnet
+    cap_add:
+      - IPC_LOCK
+    stop_grace_period: 10m
+
+  keosd:
+    image: eosio/eos
+    command: /opt/eosio/bin/keosd --wallet-dir /opt/eosio/bin/data-dir --http-server-address=127.0.0.1:8900 --http-alias=keosd:8900 --http-alias=localhost:8900
+    hostname: keosd
+    links:
+      - nodeosd
+    volumes:
+      - keosd-data-volume:/opt/eosio/bin/data-dir
+    stop_grace_period: 10m
+
+volumes:
+  nodeos-data-volume:
+    external: true
+  keosd-data-volume:
+    external: true
+  block-data-volume:
+    external: true
