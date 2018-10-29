@@ -1,85 +1,41 @@
-# EOSIO - The Most Powerful Infrastructure for Decentralized Applications
+# EOS-BACKEND
+eos-backend made by Marcel Morales  
 
-[![Build status](https://badge.buildkite.com/370fe5c79410f7d695e4e34c500b4e86e3ac021c6b1f739e20.svg?branch=master)](https://buildkite.com/EOSIO/eosio)
+## What it does
+* installs a non-producing EOS node using Docker
+* saves all transactions in separate mongodb
+* public API to query this mongodb
+* public API to create EOS-accounts remotely
+    * just send 'acc-name' and currency to pay [BTC, ETH, EOS]
+* all in one Docker container
 
-Welcome to the EOSIO source code repository! This software enables businesses to rapidly build and deploy high-performance and high-security blockchain-based applications.
+## Manual
 
-Some of the groundbreaking features of EOSIO include:
+#### Assumption
+Have a basic server running. E.g a Digital Ocean droplet 18.04, 4 standard CPU cores, 16GB RAM (minimum), 160GB + extra 500GB XFS (!) storage  
+Stronger CPU means faster syncing
+* [Initial Server Setup Digital Ocean Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04) Step 5 not needed, just follow:
+* [How to Set Up SSH Keys on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-ubuntu-1804)
 
-1. Free Rate Limited Transactions 
-1. Low Latency Block confirmation (0.5 seconds)
-1. Low-overhead Byzantine Fault Tolerant Finality
-1. Designed for optional high-overhead, low-latency BFT finality 
-1. Smart contract platform powered by Web Assembly
-1. Designed for Sparse Header Light Client Validation
-1. Scheduled Recurring Transactions 
-1. Time Delay Security
-1. Hierarchical Role Based Permissions
-1. Support for Biometric Hardware Secured Keys (e.g. Apple Secure Enclave)
-1. Designed for Parallel Execution of Context Free Validation Logic
-1. Designed for Inter Blockchain Communication 
+### Change following variables
+in Docker/ check the .ssh's and
+* replace /mnt/'volume_lon1_01'/mainnet  with /mnt/{your_external_SSD}/mainnet 
+* exact files tba
 
-EOSIO is released under the open source MIT license and is offered “AS IS” without warranty of any kind, express or implied. Any security provided by the EOSIO software depends in part on how it is used, configured, and deployed. EOSIO is built upon many third-party libraries such as Binaryen (Apache License) and WAVM  (BSD 3-clause) which are also provided “AS IS” without warranty of any kind. Without limiting the generality of the foregoing, Block.one makes no representation or guarantee that EOSIO or any third-party libraries will perform as intended or will be free of errors, bugs or faulty code. Both may fail in large or small ways that could completely or partially limit functionality or compromise computer systems. If you use or implement EOSIO, you do so at your own risk. In no event will Block.one be liable to any party for any damages whatsoever, even if it had been advised of the possibility of damage.  
+### Installation
 
-Block.one is neither launching nor operating any initial public blockchains based upon the EOSIO software. This release refers only to version 1.0 of our open source software. We caution those who wish to use blockchains built on EOSIO to carefully vet the companies and organizations launching blockchains based on EOSIO before disclosing any private keys to their derivative software. 
+In folder Docker run:
 
-There is no public testnet running currently.
+* docker build . -t eosio/eos
+* docker run -ti --name nodeos -d -p 8888:8888 -p 9876:9876 -p 3838:3838 -v /mnt/{your_external_ssd}/mainnet:/mnt/{your_external_ssd}/mainnet -t eosio/eos bash
+* docker exec -ti full-replay.sh
+While syncing blocks you can already start the txAPI via
+* docker exec start-txAPI
 
-**If you have previously installed EOSIO, please run the `eosio_uninstall` script (it is in the directory where you cloned EOSIO) before downloading and using the binary releases.**
+### Usage
+GET request at
+http://{your_server_IP}:3838/v1/history/get_actions/binancecleos/transfer?blockHeight=0  
+where binancecleos can be any EOS account and blockHeight will ignore all trx below
 
-#### Mac OS X Brew Install
-```sh
-$ brew tap eosio/eosio
-$ brew install eosio
-```
-#### Mac OS X Brew Uninstall
-```sh
-$ brew remove eosio
-```
-#### Ubuntu 18.04 Debian Package Install
-```sh
-$ wget https://github.com/eosio/eos/releases/download/v1.4.1/eosio-1.4.1.ubuntu-18.04-x86_64.deb
-$ sudo apt install ./eosio-1.4.1.ubuntu-18.04-x86_64.deb
-```
-#### Ubuntu 16.04 Debian Package Install
-```sh
-$ wget https://github.com/eosio/eos/releases/download/v1.4.1/eosio-1.4.1.ubuntu-16.04-x86_64.deb
-$ sudo apt install ./eosio-1.4.1.ubuntu-16.04-x86_64.deb
-```
-#### Debian Package Uninstall
-```sh
-$ sudo apt remove eosio
-```
-#### RPM Package Install
-```sh
-$ wget https://github.com/eosio/eos/releases/download/v1.4.1/eosio-1.4.1.x86_64-0.x86_64.rpm
-$ sudo yum install ./eosio-1.4.1.x86_64-0.x86_64.rpm
-```
-#### RPM Package Uninstall
-```sh
-$ sudo yum remove eosio.cdt
-```
-
-## Supported Operating Systems
-EOSIO currently supports the following operating systems:  
-1. Amazon 2017.09 and higher
-2. Centos 7
-3. Fedora 25 and higher (Fedora 27 recommended)
-4. Mint 18
-5. Ubuntu 16.04 (Ubuntu 16.10 recommended)
-6. Ubuntu 18.04
-7. MacOS Darwin 10.12 and higher (MacOS 10.13.x recommended)
-
-## Resources
-1. [Website](https://eos.io)
-1. [Blog](https://medium.com/eosio)
-1. [Developer Portal](https://developers.eos.io)
-1. [StackExchange for Q&A](https://eosio.stackexchange.com/)
-1. [Community Telegram Group](https://t.me/EOSProject)
-1. [Developer Telegram Group](https://t.me/joinchat/EaEnSUPktgfoI-XPfMYtcQ)
-1. [White Paper](https://github.com/EOSIO/Documentation/blob/master/TechnicalWhitePaper.md)
-1. [Roadmap](https://github.com/EOSIO/Documentation/blob/master/Roadmap.md)
-
-<a name="gettingstarted"></a>
-## Getting Started
-Instructions detailing the process of getting the software, building it, running a simple test network that produces blocks, account creation and uploading a sample contract to the blockchain can be found in [Getting Started](https://developers.eos.io/eosio-nodeos/docs/overview-1) on the [EOSIO Developer Portal](https://developers.eos.io).
+#### Props and Credits to
+Blockmatrix & CryptoLions
