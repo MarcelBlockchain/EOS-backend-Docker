@@ -19,7 +19,7 @@ Stronger CPU means faster syncing
 
 ### Change following variables
 in Docker/ check the .ssh's and
-* replace /mnt/'volume_lon1_01'/mainnet  with /mnt/{your_external_SSD}/mainnet 
+* replace /mnt/'volume_lon1_01'/mainnet  with /mnt/{your_external_SSD}/mainnet as well as in config.ini
 * exact files tba
 
 ### Installation
@@ -28,9 +28,21 @@ In folder Docker run:
 
 * docker build . -t eosio/eos
 * docker run -ti --name nodeos -d -p 8888:8888 -p 9876:9876 -p 3838:3838 -v /mnt/{your_external_ssd}/mainnet:/mnt/{your_external_ssd}/mainnet -t eosio/eos bash
-* docker exec -ti full-replay.sh
+* docker exec -ti nodeos full-replay.sh
 While syncing blocks you can already start the txAPI via
-* docker exec start-txAPI
+* docker exec nodeos start-txAPI.sh
+
+To use the terminal insight Docker do
+* docker exec -ti nodeos bash
+
+folders worth knowing:
+```
+/mnt/{your_external_ssd}/mainnet
+/mnt/{your_external_ssd}/mongodb
+/opt/eosio/bin/
+/opt/txAPI/
+/bin  // all .ssh files you can access using docker exec ...
+```
 
 ### Usage
 GET request at
