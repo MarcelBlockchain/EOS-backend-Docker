@@ -1,3 +1,3 @@
 #!/bin/bash
+cd /opt/txAPI && ./start-txAPI.sh
 
-/opt/txAPI/start.sh

@@ -3,9 +3,9 @@ m=/mnt/volume_lon1_01/mainnet
 db=/mnt/volume_lon1_01/mongodb
 eos=/opt/eosio/bin
 
-/bin/stop.sh
-/bin/create-folders.sh
-/bin/download-blocks.sh
+./stop.sh
+./create-folders.sh
+./download-blocks.sh
 
 $eos/opt/mongod/bin/mongod --fork --logpath $db/log/mongodb.log --dbpath $db
 

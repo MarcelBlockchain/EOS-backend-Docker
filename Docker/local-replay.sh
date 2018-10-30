@@ -3,8 +3,8 @@ m=/mnt/volume_lon1_01/mainnet
 db=/mnt/volume_lon1_01/mongodb
 eos=/opt/eosio/bin
 
-/bin/stop.sh
-/bin/create-folders.sh
+./stop.sh
+./create-folders.sh
 
 rm -rf $m/blocks /root/.local/share/eosio/nodeos/data/state
 

@@ -1,3 +1,2 @@
 #!/bin/bash
-
-/opt/txAPI/stop.sh
+cd /opt/txAPI && ./stop-txAPI.sh
