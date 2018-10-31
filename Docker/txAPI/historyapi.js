@@ -13,13 +13,13 @@ module.exports = (app, DB) => {
     // let action = String(req.params.action)
     let blockHeight = req.query.blockHeight
     let query = { $or: [
-      { 'actions.account': accountName },
-      { 'actions.data.receiver': accountName },
+     // { 'actions.account': accountName },
+     // { 'actions.data.receiver': accountName },
       { 'actions.data.from': accountName },
       { 'actions.data.to': accountName },
-      { 'actions.data.name': accountName },
-      { 'actions.data.voter': accountName },
-      { 'actions.authorization.actor': accountName }
+     // { 'actions.data.name': accountName },
+     // { 'actions.data.voter': accountName },
+     // { 'actions.authorization.actor': accountName }
     ],
     $and: [{ 'actions.name': 'transfer' }]
     }
