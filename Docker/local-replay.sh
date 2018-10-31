@@ -6,7 +6,7 @@ eos=/opt/eosio/bin
 ./stop.sh
 ./create-folders.sh
 
-rm -rf $m/blocks /root/.local/share/eosio/nodeos/data/state
+rm -rf /root/.local/share/eosio/nodeos/data/state
 
 $eos/opt/mongod/bin/mongod --fork --logpath $db/log/mongodb.log --dbpath $db
 
