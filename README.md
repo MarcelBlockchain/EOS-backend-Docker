@@ -64,7 +64,7 @@ full-replay = download-blocks + local-replay
 
 * full-replay.sh  
 
-like full-replay but tries to resync using the current blocks folder instead of downloading a new one  
+like full-replay but tries to resync using the current blocks folder instead of downloading a new one. If ```'block_log_not_found'```, abort with ^C, cd to ```/mnt/{your_ssd}/mainnet``` and rename ```blocks-2018-10.....``` to ```blocks``` and try again
 
 * local-replay.sh  
 
