@@ -54,7 +54,8 @@ folders worth knowing:
 /bin  // all .ssh files you can access using docker exec ...
 ```
 
-### docker exec -ti nodeos {.sh}  
+### docker exec -ti nodeos {.sh} 
+
 
 downloads and unzips blocks to /mnt/{your_ssd}/mainnet, without resyncing  
 
@@ -86,6 +87,9 @@ installs yarn and all node packages for txAPI
 
 * yarn-install.sh
 
+shows the current status of the synchronisation
+
+* status.sh
 
 ### Usage
 GET request at
