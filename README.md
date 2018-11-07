@@ -27,7 +27,7 @@ in Docker/ check the .ssh's and config.ini
 In folder Docker run:
 
 * ```docker build . -t eosio/eos```
-* ```docker run -ti --name nodeos -d -p 8888:8888 -p 9876:9876 -p 3838:3838 -v /mnt/{your_external_ssd}/mainnet:/mnt/{your_external_ssd}/mainnet -t eosio/eos bash```
+* ```docker run -ti --name nodeos -d -p 8888:8888 -p 9876:9876 -p 3838:3838 -v /mnt/{your_external_ssd}/mainnet:/mnt/{your_external_ssd}/mainnet -v /mnt/{your_external_ssd}/mongodb:/mnt/{your_external_ssd}/mongodb -t eosio/eos bash```
 
 install yarn and the node packages  
 
