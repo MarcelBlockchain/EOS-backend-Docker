@@ -29,7 +29,7 @@ ENV EOS="/opt/eosio/bin"
 COPY opt $EOS/opt
 COPY txAPI /opt/txAPI
 
-COPY yarn-install.sh status.sh stop.sh local-replay.sh full-replay.sh create-folders.sh restart.sh download-blocks.sh start-txAPI.sh stop-txAPI.sh /bin/
+COPY yarn-install.sh build_indexes.sh status.sh stop.sh local-replay.sh full-replay.sh create-folders.sh restart.sh download-blocks.sh start-txAPI.sh stop-txAPI.sh /bin/
 
-RUN chmod -v +x /bin/yarn-install.sh /bin/status.sh /bin/stop.sh /bin/local-replay.sh /bin/full-replay.sh /bin/restart.sh /bin/create-folders.sh /bin/download-blocks.sh /bin/start-txAPI.sh /bin/stop-txAPI.sh
+RUN chmod -v +x /bin/yarn-install.sh /bin/build_indexes.sh /bin/status.sh /bin/stop.sh /bin/local-replay.sh /bin/full-replay.sh /bin/restart.sh /bin/create-folders.sh /bin/download-blocks.sh /bin/start-txAPI.sh /bin/stop-txAPI.sh
 RUN /bin/yarn-install.sh

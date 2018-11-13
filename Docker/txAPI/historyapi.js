@@ -13,15 +13,15 @@ module.exports = (app, DB) => {
     // let action = String(req.params.action)
     let blockHeight = req.query.blockHeight
     let query = { $or: [
-     // { 'actions.account': accountName },
-     // { 'actions.data.receiver': accountName },
-      { 'actions.data.from': accountName },
-      { 'actions.data.to': accountName },
-     // { 'actions.data.name': accountName },
-     // { 'actions.data.voter': accountName },
-     // { 'actions.authorization.actor': accountName }
+     // { 'act.account': accountName },
+     // { 'act.data.receiver': accountName },
+      { 'act.data.from': accountName },
+      { 'act.data.to': accountName },
+     // { 'act.data.name': accountName },
+     // { 'act.data.voter': accountName },
+     // { 'act.authorization.actor': accountName }
     ],
-    $and: [{ 'actions.name': 'transfer' }]
+    $and: [{ 'act.name': 'transfer' }]
     }
     // if (action !== 'undefined' && action !== 'all') {
     //            query['$and'].push({'actions.name': action})
@@ -41,7 +41,7 @@ module.exports = (app, DB) => {
       return res.status(401).send(`Sort param must be 1 or -1`)
     }
 
-    DB.collection('transactions').find(query).sort({ '_id': sort }).limit(limit).toArray((err, result) => {
+    DB.collection('action_traces').find(query).sort({ '_id': sort }).limit(limit).toArray((err, result) => {
       if (err) {
         console.error(err)
         return res.status(500).end()
@@ -49,8 +49,8 @@ module.exports = (app, DB) => {
       const transactions = []
       result.map(a => {
         if (a.block_num <= blockHeight) return false
-        if (a.actions[0].name !== 'transfer') return false
-        const { from, memo, quantity, to } = a.actions[0].data
+        if (a.act.name !== 'transfer') return false
+        const { from, memo, quantity, to } = a.act.data
         const split = quantity.split(' ')
         const [exchangeAmount, currencyCode] = split
 
@@ -66,7 +66,7 @@ module.exports = (app, DB) => {
           otherParams: { fromAddress: from, toAddress: to },
           exchangeAmount,
           quantity: quantity,
-          name: a.actions[0].name
+          name: a.act.name
         }
         // protects against double entries
         if (!_.some(transactions, singleTx)) transactions.push(singleTx)
