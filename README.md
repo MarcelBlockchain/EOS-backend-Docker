@@ -5,22 +5,23 @@ eos-backend made by Marcel Morales
 * installs a non-producing optimised EOS node using Docker
 * saves all transactions in separate mongodb
 * public API to query this mongodb
-* public API to create EOS-accounts remotely
+* public API to create EOS-accounts remotely (not implemented yet)
     * just send 'acc-name' and currency to pay [BTC, ETH, EOS]
 * all in one Docker container
 
 ## Manual
 
 #### Assumption
-Have a basic server running. E.g a Digital Ocean droplet 18.04, 4 standard CPU cores, 16GB RAM (minimum), 160GB + extra 500GB XFS (!) storage  
+Have a basic server running. E.g a Digital Ocean droplet 18.04, 4 standard CPU cores, 16GB RAM (minimum), 160GB + extra 1TB XFS (!) storage  
 Stronger CPU means faster syncing
 * [Initial Server Setup Digital Ocean Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04) Step 5 not needed, just follow:
 * [How to Set Up SSH Keys on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-ubuntu-1804)
+* [Install Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04)
 
 ### Change following variables
 in Docker/ check the .ssh's and config.ini
 * replace /mnt/'volume_lon1_01'/mainnet  with /mnt/{your_external_SSD}/mainnet
-* create-folders.sh, download-blocks.sh, full-replay.sh, local-replay.sh, restart.sh, config.ini
+* create-folders.sh, download-blocks.sh, full-replay.sh, local-replay.sh, mongo-init.sh, restart.sh, config.ini
 
 ### Installation
 
@@ -33,7 +34,11 @@ install yarn and the node packages
 
 * ```docker exec -ti nodeos yarn-install.sh  ```
 
-start full replay. Will download all blocks zipped from a Amazon EU webserver, unzip it and start resyncing  
+start mongo daemon and indexing  
+
+* ```docker exec -ti nodeos mongo-init.sh   ```
+
+start full replay. Will download all blocks zipped from a Amazon EU webserver (Dublin), unzip it and start resyncing  
 
 * ```docker exec -ti nodeos full-replay.sh  ```
 
